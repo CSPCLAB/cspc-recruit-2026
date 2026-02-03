@@ -1,14 +1,2 @@
-### 지원서 제출 테스트
-POST http://localhost:3000/api/applications/submit
-Content-Type: application/json
-
-{
-  "name": "홍길동",
-  "student_id": "20248888",
-  "department": "컴퓨터공학과",
-  "phone": "010-1234-5678",
-  "intro": "자기소개입니다",
-  "motivation": "지원동기입니다",
-  "goal": "목표입니다",
-  "comment": "기타 코멘트"
-}
+### [Admin] 관리자용 지원자 목록 조회
+GET http://localhost:3000/api/admin/applications
