@@ -1,45 +1,54 @@
 "use client";
 
-import {createClient} from "@/app/lib/supabase/client";
-import {useState} from "react";
+import { useState } from "react";
 
 export default function ApplyPage() {
-  const supabase = createClient();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     const form = e.currentTarget;
+    const formData = new FormData(form);
 
-    const formData = new FormData(e.currentTarget);
     const data = {
-      name: formData.get("name") as string,
-      student_id: formData.get("student_id") as string,
-      department: formData.get("department") as string,
-      phone: formData.get("phone") as string,
-      intro: formData.get("intro") as string,
-      motivation: formData.get("motivation") as string,
-      goal: formData.get("goal") as string,
-      comment: formData.get("comment") as string,
+      name: formData.get("name"),
+      student_id: formData.get("student_id"),
+      department: formData.get("department"),
+      phone: formData.get("phone"),
+      intro: formData.get("intro"),
+      motivation: formData.get("motivation"),
+      goal: formData.get("goal"),
+      comment: formData.get("comment"),
     };
 
-    const {error} = await supabase
-      .from("applicants")
-      .insert([data]);
+    try {
+      const res = await fetch("/api/applications/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      if(error){
-        console.error(error);
-        alert("저장 중 오류가 발생하였습니다.");
+      const result = await res.json();
+
+      if (!res.ok) {
+        alert(result.message || "오류가 발생했습니다.");
         setLoading(false);
         return;
       }
 
       alert("지원이 완료되었습니다.");
       form.reset();
-      setLoading(false);
-  }
+    } catch (error) {
+      console.error(error);
+      alert("서버 오류가 발생했습니다.");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
