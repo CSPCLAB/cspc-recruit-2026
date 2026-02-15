@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,8 +42,9 @@ export default function ApplyPage() {
         return;
       }
 
-      alert("지원이 완료되었습니다.");
-      form.reset();
+      router.push("/apply/complete");
+      return;
+      
     } catch (error) {
       console.error(error);
       alert("서버 오류가 발생했습니다.");
