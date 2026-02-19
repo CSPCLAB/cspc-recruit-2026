@@ -56,11 +56,6 @@ export default function Home(){
             CSPC 지원하기
           </button>
         </Link>
-        <Link href="/login">
-          <button className="text-gray-500 px-4 py-2 rounded-xl text-base">
-            관리자
-          </button>
-        </Link>
       </div>
     </main>
   );
