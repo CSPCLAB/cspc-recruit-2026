@@ -5,10 +5,26 @@ import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
+  const [intro, setIntro] = useState("");
+  const [motivation, setMotivation] = useState("");
+  const [introTouched, setIntroTouched] = useState(false);
+  const [motivationTouched, setMotivationTouched] = useState(false);
   const router = useRouter();
+
+
+  const introMin = 200;
+  const motivationMin = 100;
+
+  const isValid = intro.trim().length >= introMin && motivation.trim().length >= motivationMin;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if(!isValid){
+      alert("글자 수 조건을 충족해주세요.");
+      return;
+    }
+
     setLoading(true);
 
     const form = e.currentTarget;
@@ -42,8 +58,7 @@ export default function ApplyPage() {
         return;
       }
 
-      router.push("/apply/complete");
-      return;
+      router.push("/apply/interview");
       
     } catch (error) {
       console.error(error);
@@ -122,34 +137,56 @@ export default function ApplyPage() {
           {/* 자기소개 */}
           <div>
             <label className="block font-medium mb-1 text-black">
-              자기소개 <span className="text-red-500">*</span>
+              자기소개(200자 이상) <span className="text-red-500">*</span>
             </label>
             <textarea
               name="intro"
-              minLength={200}
-              required
+              value={intro}
+              onChange={(e)=>setIntro(e.target.value)}
+              onBlur={()=> setIntroTouched(true)}
               rows={5}
-              className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 resize-none"
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${
+                introTouched && intro.trim().length < introMin
+                  ? "border-red-400"
+                  : "border-gray-300"
+              }`}
             />
-            <p className="text-sm text-gray-400 mt-1">
-              최소 200자 이상 작성해주세요.
+            <p
+              className={`text-sm mt-1 ${
+                introTouched && intro.trim().length < introMin
+                  ? "text-red-500"
+                  : "text-gray-500"
+              }`}
+            >
+              {intro.trim().length} / {introMin}자
             </p>
           </div>
 
           {/* 지원 동기 */}
           <div>
             <label className="block font-medium mb-1 text-black">
-              지원 동기 <span className="text-red-500">*</span>
+              지원 동기(100자 이상) <span className="text-red-500">*</span>
             </label>
             <textarea
               name="motivation"
-              minLength={100}
-              required
+              value={motivation}
+              onChange={(e) => setMotivation(e.target.value)}
+              onBlur={()=>setMotivationTouched(true)}
               rows={4}
-              className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 resize-none"
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${
+                motivationTouched && motivation.trim().length < motivationMin
+                  ? "border-red-400"
+                  : "border-gray-300"
+              }`}
             />
-            <p className="text-sm text-gray-400 mt-1">
-              최소 100자 이상 작성해주세요.
+            <p
+              className={`text-sm mt-1 ${
+                motivationTouched && motivation.trim().length < motivationMin
+                  ? "text-red-500"
+                  : "text-gray-500"
+              }`}
+            >
+              {motivation.trim().length} / {motivationMin}자
             </p>
           </div>
 
@@ -178,13 +215,13 @@ export default function ApplyPage() {
             />
           </div>
 
-          {/* 제출 버튼 */}
+          {/* 면접 페이지 넘어가는 버튼 */}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition"
           >
-            {loading ? "제출 중..." : "지원하기"}
+            {loading ? "..." : "면접일 선택하기"}
           </button>
         </form>
       </div>
