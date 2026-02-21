@@ -18,12 +18,6 @@ export default function Home(){
             CSPC
           </h1>
         </div>
-
-        <Link href="/about">
-          <button className="bg-gray-200 text-black px-4 py-2 rounded-lg tracking-wide font-semibold text-base">
-            학회 소개
-          </button>
-        </Link>
       </div>
 
       <section className="w-full bg-black py-10 px-5">
