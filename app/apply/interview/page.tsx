@@ -28,7 +28,8 @@ export default function InterviewPage() {
       return;
     }
 
-    alert(`선택한 면접일:\n${selectedDates.join("\n")}`);
+    const confirmSubmit = confirm("제출하시겠습니까?");
+    if(!confirmSubmit) return;
     
     // 완료 페이지로 이동
     router.push("/apply/complete");

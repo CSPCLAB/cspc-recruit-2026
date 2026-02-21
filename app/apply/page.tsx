@@ -5,16 +5,24 @@ import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
+
+  //글자수 표기
   const [intro, setIntro] = useState("");
   const [motivation, setMotivation] = useState("");
   const [introTouched, setIntroTouched] = useState(false);
   const [motivationTouched, setMotivationTouched] = useState(false);
+
+  //전화번호, 학번 형식
+  const [studentIdError, setStudentIdError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+
   const router = useRouter();
 
 
   const introMin = 200;
   const motivationMin = 100;
 
+  //글자수 확인
   const isValid = intro.trim().length >= introMin && motivation.trim().length >= motivationMin;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,6 +37,26 @@ export default function ApplyPage() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+
+    const studentId = formData.get("student_id") as string;
+    const phone = formData.get("phone") as string;
+
+    const studentIdValid = /^\d{8}$/.test(studentId);
+    const phoneValid = /^010-\d{4}-\d{4}$/.test(phone);
+
+    if(!studentIdValid){
+      setStudentIdError(true);
+      alert("학번을 올바르게 입력해주세요.");
+      setLoading(false);
+      return;
+    }
+
+    if(!phoneValid){
+      setPhoneError(true);
+      alert("전화번호를 010-1234-5678 형식으로 입력해주세요.");
+      setLoading(false);
+      return;
+    }
 
     const data = {
       name: formData.get("name"),
@@ -100,7 +128,10 @@ export default function ApplyPage() {
               type="text"
               placeholder="20261234"
               required
-              className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2"
+              onChange={()=>setStudentIdError(false)}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
+                studentIdError ? "border-red-400" : "border-gray-300" 
+              }`}
             />
             <p className="text-sm text-gray-400 mt-1">
               중복 지원은 불가능합니다.
@@ -130,7 +161,10 @@ export default function ApplyPage() {
               type="text"
               placeholder="010-1234-5678"
               required
-              className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2"
+              onChange={()=>setPhoneError(false)}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
+                phoneError? "border-red-400" : "border-gray-300"
+              }`}
             />
           </div>
 
