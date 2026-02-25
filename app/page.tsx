@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import ImageSlider from "./components/ImageSlider";
 
 export default function Home(){
   return (
@@ -18,12 +21,6 @@ export default function Home(){
             CSPC
           </h1>
         </div>
-
-        <Link href="/about">
-          <button className="bg-gray-200 text-black px-4 py-2 rounded-lg tracking-wide font-semibold text-base">
-            학회 소개
-          </button>
-        </Link>
       </div>
 
       <section className="w-full bg-black py-10 px-5">
@@ -36,15 +33,37 @@ export default function Home(){
         </div>
       </section>
 
+      <div className="max-w-5xl mx-auto">
+        <ImageSlider />
+      </div>
+
       <section className="w-full bg-gray-100 py-14 px-5">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-10">
-          <p className="w-32 h-32 rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center">
+        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-10">
+          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px]
+            rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center
+            transition-all duration-300
+            hover:-translate-y-2
+            hover:shadow-xl
+            cursor-pointer
+            ">
             랩실 관리
           </p>
-          <p className="w-32 h-32 rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center">
+          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px] 
+            rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center
+            transition-all duration-300
+            hover:-translate-y-2
+            hover:shadow-xl
+            cursor-pointer
+            ">
             다양한 스터디
           </p>
-          <p className="w-32 h-32 rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center">
+          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px]
+            rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-9 bg-blue-600 flex items-center justify-center
+            transition-all duration-300
+            hover:-translate-y-2
+            hover:shadow-xl
+            cursor-pointer
+            ">
             선배 찬스
           </p>
         </div>
@@ -52,7 +71,7 @@ export default function Home(){
 
       <div className="flex flex-col items-center gap-2 mt-12">
         <Link href="/apply">
-          <button className="text-white bg-blue-600 px-6 py-3 rounded-xl text-xl font-semibold">
+          <button className="text-white bg-blue-600 px-6 py-3 rounded-xl text-xl font-semibold mb-8">
             CSPC 지원하기
           </button>
         </Link>
