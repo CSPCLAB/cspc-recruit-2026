@@ -106,7 +106,7 @@ export default function ImageSlider() {
                 }}
                 className="absolute left-4 top-1/2 -translate-y-1/2 z-10
                 bg-black/40 text-white w-10 h-10 rounded-full
-                flex items-center justify-center"
+                flex items-center justify-center cursor-pointer"
             >
                 ‹
             </button>
@@ -120,7 +120,7 @@ export default function ImageSlider() {
                 }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 z-10
                 bg-black/40 text-white w-10 h-10 rounded-full
-                flex items-center justify-center"
+                flex items-center justify-center cursor-pointer"
             >
                 ›
             </button>

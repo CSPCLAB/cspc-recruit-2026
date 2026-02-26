@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +25,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased
+      min-h-screen flex flex-col`}>
+        <Header />
+
+        <main className="flex-1">
+          {children}
+        </main>
+
+        {/*footer*/}
+        <footer className="bg-gray-100 mt-20 py-10">
+          <div className="max-w-5xl mx-auto text-left px-10">
+            <h2 className="text-xl font-semibold mb-5">
+              Contact
+            </h2>
+            <div className="flex gap-10 text-gray-700">
+              <div>
+                <p className="text-lg leading-8">
+                  다산관 104, 105
+                </p>
+                <p>문의 학회장 서현수 010-7349-1204</p>
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
-    </html>
+    </html >
   );
 }
