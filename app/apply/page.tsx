@@ -90,8 +90,6 @@ export default function ApplyPage() {
         return;
       }
 
-      // 면접일 페이지에서 학번을 사용할 수 있도록 저장
-      localStorage.setItem("pending_student_id", studentId);
       router.push("/apply/interview");
 
     } catch (error) {
