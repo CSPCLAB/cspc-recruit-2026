@@ -16,6 +16,9 @@ export default function ApplyPage() {
   const [studentIdError, setStudentIdError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
 
+  //신환회 참여 여부
+  const [orientation, setOrientation] = useState(false);
+
   const router = useRouter();
 
 
@@ -67,6 +70,7 @@ export default function ApplyPage() {
       motivation: formData.get("motivation"),
       goal: formData.get("goal"),
       comment: formData.get("comment"),
+      orientation: orientation,
     };
 
     try {
@@ -98,8 +102,8 @@ export default function ApplyPage() {
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold mb-2 text-black">2026 CSPC 학회원 모집</h1>
+      <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[55%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2 text-black">2026 CSPC 학회원 모집</h1>
         <p className="text-gray-500 mb-8">
           아래 항목을 정확하게 작성해 주세요.
         </p>
@@ -247,6 +251,25 @@ export default function ApplyPage() {
               rows={3}
               className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 resize-none"
             />
+          </div>
+
+          {/* 신환회 참여 여부 */}
+          <div>
+            <label className="block font-medium mb-2 text-black">
+              3월 19일(목) 신입생 환영회는 필참 입니다!
+            </label>
+            
+            <label className = "flex items-center gap-3 cursor-pointer">
+              <input
+                type = "checkbox"
+                checked = {orientation}
+                onChange = {(e)=>setOrientation(e.target.checked)}
+                className = "w-5 h-5"
+              />
+              <span className = "text-black">
+                참여 가능합니다.
+              </span>
+            </label>
           </div>
 
           {/* 면접 페이지 넘어가는 버튼 */}
