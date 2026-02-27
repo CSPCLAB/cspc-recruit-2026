@@ -9,8 +9,29 @@ export default function InterviewPage() {
   // 면접일
   const interviewDates = [
     "2026년 3월 11일 (수) 18:00",
+    "2026년 3월 11일 (수) 18:20",
+    "2026년 3월 11일 (수) 18:40",
+    "2026년 3월 11일 (수) 19:00",
+    "2026년 3월 11일 (수) 19:20",
+    "2026년 3월 11일 (수) 19:40",
+    "2026년 3월 11일 (수) 20:00",
+    "2026년 3월 11일 (수) 20:40",
     "2026년 3월 12일 (목) 18:00",
+    "2026년 3월 12일 (목) 18:20",
+    "2026년 3월 12일 (목) 18:40",
+    "2026년 3월 12일 (목) 19:00",
+    "2026년 3월 12일 (목) 19:20",
+    "2026년 3월 12일 (목) 19:40",
+    "2026년 3월 12일 (목) 20:00",
+    "2026년 3월 12일 (목) 20:40",
     "2026년 3월 13일 (금) 18:00",
+    "2026년 3월 13일 (금) 18:20",
+    "2026년 3월 13일 (금) 18:40",
+    "2026년 3월 13일 (금) 19:00",
+    "2026년 3월 13일 (금) 19:20",
+    "2026년 3월 13일 (금) 19:40",
+    "2026년 3월 13일 (금) 20:00",
+    "2026년 3월 13일 (금) 20:40",
   ];
 
   const toggleDate = (date: string) =>{
@@ -37,7 +58,7 @@ export default function InterviewPage() {
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 md:px-10 py-10">
-      <div className="w-full max-w-[95%] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl bg-white rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 transition-all">
+      <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[75%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8 transition-all">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-black">
           면접일 선택
         </h1>
@@ -62,13 +83,23 @@ export default function InterviewPage() {
             </button>
           ))}
         </div>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={()=>router.push("/apply")}
+            className="w-full bg-gray-200 text-black py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-200"
+          >
+            ← 뒤로가기
+          </button>
 
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition"
-        >
-          제출하기
-        </button>
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-black text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] trasition-all duration-200"
+          >
+            제출하기
+          </button>
+        </div>
       </div>
     </main>
   );

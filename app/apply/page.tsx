@@ -102,7 +102,7 @@ export default function ApplyPage() {
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[55%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8">
+      <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[75%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8">
         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-black">2026 CSPC 학회원 모집</h1>
         <p className="text-gray-500 mb-8">
           아래 항목을 정확하게 작성해 주세요.
