@@ -31,7 +31,7 @@ export default function ApplyPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(!isValid){
+    if (!isValid) {
       alert("글자 수 조건을 충족해주세요.");
       return;
     }
@@ -47,14 +47,14 @@ export default function ApplyPage() {
     const studentIdValid = /^\d{8}$/.test(studentId);
     const phoneValid = /^010-\d{4}-\d{4}$/.test(phone);
 
-    if(!studentIdValid){
+    if (!studentIdValid) {
       setStudentIdError(true);
       alert("학번을 올바르게 입력해주세요.");
       setLoading(false);
       return;
     }
 
-    if(!phoneValid){
+    if (!phoneValid) {
       setPhoneError(true);
       alert("전화번호를 010-1234-5678 형식으로 입력해주세요.");
       setLoading(false);
@@ -90,8 +90,10 @@ export default function ApplyPage() {
         return;
       }
 
+      // 면접일 페이지에서 학번을 사용할 수 있도록 저장
+      localStorage.setItem("pending_student_id", data.student_id || studentId);
       router.push("/apply/interview");
-      
+
     } catch (error) {
       console.error(error);
       alert("서버 오류가 발생했습니다.");
@@ -132,10 +134,9 @@ export default function ApplyPage() {
               type="text"
               placeholder="20261234"
               required
-              onChange={()=>setStudentIdError(false)}
-              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
-                studentIdError ? "border-red-400" : "border-gray-300" 
-              }`}
+              onChange={() => setStudentIdError(false)}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${studentIdError ? "border-red-400" : "border-gray-300"
+                }`}
             />
             <p className="text-sm text-gray-400 mt-1">
               중복 지원은 불가능합니다.
@@ -165,10 +166,9 @@ export default function ApplyPage() {
               type="text"
               placeholder="010-1234-5678"
               required
-              onChange={()=>setPhoneError(false)}
-              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
-                phoneError? "border-red-400" : "border-gray-300"
-              }`}
+              onChange={() => setPhoneError(false)}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${phoneError ? "border-red-400" : "border-gray-300"
+                }`}
             />
           </div>
 
@@ -180,21 +180,19 @@ export default function ApplyPage() {
             <textarea
               name="intro"
               value={intro}
-              onChange={(e)=>setIntro(e.target.value)}
-              onBlur={()=> setIntroTouched(true)}
+              onChange={(e) => setIntro(e.target.value)}
+              onBlur={() => setIntroTouched(true)}
               rows={5}
-              className={`w-full border rounded-lg px-4 py-2 resize-none ${
-                introTouched && intro.trim().length < introMin
-                  ? "border-red-400"
-                  : "border-gray-300"
-              }`}
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${introTouched && intro.trim().length < introMin
+                ? "border-red-400"
+                : "border-gray-300"
+                }`}
             />
             <p
-              className={`text-sm mt-1 ${
-                introTouched && intro.trim().length < introMin
-                  ? "text-red-500"
-                  : "text-gray-500"
-              }`}
+              className={`text-sm mt-1 ${introTouched && intro.trim().length < introMin
+                ? "text-red-500"
+                : "text-gray-500"
+                }`}
             >
               {intro.trim().length} / {introMin}자
             </p>
@@ -209,20 +207,18 @@ export default function ApplyPage() {
               name="motivation"
               value={motivation}
               onChange={(e) => setMotivation(e.target.value)}
-              onBlur={()=>setMotivationTouched(true)}
+              onBlur={() => setMotivationTouched(true)}
               rows={4}
-              className={`w-full border rounded-lg px-4 py-2 resize-none ${
-                motivationTouched && motivation.trim().length < motivationMin
-                  ? "border-red-400"
-                  : "border-gray-300"
-              }`}
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${motivationTouched && motivation.trim().length < motivationMin
+                ? "border-red-400"
+                : "border-gray-300"
+                }`}
             />
             <p
-              className={`text-sm mt-1 ${
-                motivationTouched && motivation.trim().length < motivationMin
-                  ? "text-red-500"
-                  : "text-gray-500"
-              }`}
+              className={`text-sm mt-1 ${motivationTouched && motivation.trim().length < motivationMin
+                ? "text-red-500"
+                : "text-gray-500"
+                }`}
             >
               {motivation.trim().length} / {motivationMin}자
             </p>
@@ -258,15 +254,15 @@ export default function ApplyPage() {
             <label className="block font-medium mb-2 text-black">
               3월 19일(목) 신입생 환영회는 필참 입니다!
             </label>
-            
-            <label className = "flex items-center gap-3 cursor-pointer">
+
+            <label className="flex items-center gap-3 cursor-pointer">
               <input
-                type = "checkbox"
-                checked = {orientation}
-                onChange = {(e)=>setOrientation(e.target.checked)}
-                className = "w-5 h-5"
+                type="checkbox"
+                checked={orientation}
+                onChange={(e) => setOrientation(e.target.checked)}
+                className="w-5 h-5"
               />
-              <span className = "text-black">
+              <span className="text-black">
                 참여 가능합니다.
               </span>
             </label>
