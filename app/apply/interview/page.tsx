@@ -58,7 +58,7 @@ export default function InterviewPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/interview", {
+      const response = await fetch("/api/applications/interview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
