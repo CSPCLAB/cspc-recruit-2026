@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
+
+  const [name, setName] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [department, setDepartment] = useState("");
+  const [phone, setPhone] = useState("");
+  const [goal, setGoal] = useState("");
+  const [comment, setComment] = useState("");
+
 
   //글자수 표기
   const [intro, setIntro] = useState("");
@@ -25,6 +33,53 @@ export default function ApplyPage() {
   const introMin = 200;
   const motivationMin = 100;
 
+  const isFirstRender = useRef(true);
+
+  useEffect(()=>{
+    const saved = localStorage.getItem("applyForm");
+    if(saved){
+      const data = JSON.parse(saved);
+      setName(data.name || "");
+      setStudentId(data.student_id || "");
+      setDepartment(data.department || "");
+      setPhone(data.phone || "");
+      setGoal(data.goal || "");
+      setComment(data.comment || "");
+      setIntro(data.intro || "");
+      setMotivation(data.motivation || "");
+      //setOrientation(data.orientation || false);
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(isFirstRender.current){
+      isFirstRender.current = false;
+      return;
+    }
+    const data = {
+      name,
+      student_id: studentId,
+      department,
+      phone,
+      goal,
+      comment,
+      intro,
+      motivation,
+      //orientation,
+    };
+    localStorage.setItem("applyForm", JSON.stringify(data));
+  }, [
+    name,
+    studentId,
+    department,
+    phone,
+    goal,
+    comment,
+    intro,
+    motivation,
+    //orientation,
+  ]);
+
   //글자수 확인
   const isValid = intro.trim().length >= introMin && motivation.trim().length >= motivationMin;
 
@@ -37,12 +92,6 @@ export default function ApplyPage() {
     }
 
     setLoading(true);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const studentId = formData.get("student_id") as string;
-    const phone = formData.get("phone") as string;
 
     const studentIdValid = /^\d{8}$/.test(studentId);
     const phoneValid = /^010-\d{4}-\d{4}$/.test(phone);
@@ -61,45 +110,7 @@ export default function ApplyPage() {
       return;
     }
 
-    const data = {
-      name: formData.get("name") as string,
-      student_id: formData.get("student_id") as string,
-      department: formData.get("department") as string,
-      phone,
-      intro: intro,
-      motivation: motivation,
-      goal: formData.get("goal") as string,
-      comment: (formData.get("comment") as string) || "",
-      //orientation,
-    };
-
-    localStorage.setItem("applyForm", JSON.stringify(data));
     router.push("/apply/interview");
-    // try {
-    //   const res = await fetch("/api/applications/submit", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   const result = await res.json();
-
-    //   if (!res.ok) {
-    //     alert(result.message || "오류가 발생했습니다.");
-    //     setLoading(false);
-    //     return;
-    //   }
-
-    //   router.push("/apply/interview");
-      
-    // } catch (error) {
-    //   console.error(error);
-    //   alert("서버 오류가 발생했습니다.");
-    // }
-
-    // setLoading(false);
   };
 
   return (
@@ -117,8 +128,11 @@ export default function ApplyPage() {
               이름 <span className="text-red-500">*</span>
             </label>
             <input
+              value={name}
               name="name"
               type="text"
+              onChange={(e)=>setName(e.target.value)}
+              placeholder="이름"
               required
               className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
             />
@@ -134,7 +148,11 @@ export default function ApplyPage() {
               type="text"
               placeholder="20261234"
               required
-              onChange={()=>setStudentIdError(false)}
+              value={studentId}
+              onChange={(e)=>{
+                setStudentId(e.target.value);
+                setStudentIdError(false);
+              }}
               className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
                 studentIdError ? "border-red-400" : "border-gray-300" 
               }`}
@@ -150,6 +168,8 @@ export default function ApplyPage() {
               학과 <span className="text-red-500">*</span>
             </label>
             <input
+              value={department}
+              onChange={(e)=>setDepartment(e.target.value)}
               name="department"
               type="text"
               required
@@ -163,11 +183,15 @@ export default function ApplyPage() {
               전화번호 <span className="text-red-500">*</span>
             </label>
             <input
+              value={phone}
               name="phone"
               type="text"
               placeholder="010-1234-5678"
               required
-              onChange={()=>setPhoneError(false)}
+              onChange={(e)=> {
+                setPhone(e.target.value);
+                setPhoneError(false);
+              }}
               className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
                 phoneError? "border-red-400" : "border-gray-300"
               }`}
@@ -236,6 +260,8 @@ export default function ApplyPage() {
               하고 싶은 것 / 배우고 싶은 것 <span className="text-red-500">*</span>
             </label>
             <textarea
+              value={goal}
+              onChange={(e)=>setGoal(e.target.value)}
               name="goal"
               required
               rows={3}
@@ -249,6 +275,8 @@ export default function ApplyPage() {
               하고 싶은 말 <span className="text-gray-400">(선택)</span>
             </label>
             <textarea
+              value={comment}
+              onChange={(e)=>setComment(e.target.value)}
               name="comment"
               rows={3}
               className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 resize-none"
