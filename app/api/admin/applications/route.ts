@@ -10,8 +10,13 @@ export async function GET() {
 
     const { data, error } = await supabase
         .from("applicants")
-        .select("*")
-        .order("created_at", { ascending: false }); // 최신 지원자가 위로 오게
+        .select(`
+            *,
+            applicant_interview_selections (
+                selected_dates
+            )
+        `)
+        .order("created_at", { ascending: false });
 
     if (error) {
         console.error("Admin fetch error:", error);
