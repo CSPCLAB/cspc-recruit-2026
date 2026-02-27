@@ -111,7 +111,7 @@ export default function AdminDashboardSimple() {
 
             <button
                 onClick={handleLogout}
-                className="mt-6 bg-red-500 text-white px-4 py-2 rounded"
+                className="mt-6 bg-red-500 text-white px-4 py-2 rounded mr-4"
             >
                 로그아웃
             </button>
