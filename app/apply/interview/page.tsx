@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function InterviewPage() {
+// useSearchParams()를 쓰는 실제 컴포넌트
+function InterviewContent() {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [studentId, setStudentId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -126,5 +127,14 @@ export default function InterviewPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// Suspense로 감싸서 useSearchParams() 빌드 에러 방지
+export default function InterviewPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩 중...</div>}>
+      <InterviewContent />
+    </Suspense>
   );
 }
