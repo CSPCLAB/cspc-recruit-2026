@@ -26,15 +26,22 @@ export async function GET() {
         { header: "학번", key: "student_id", width: 14 },
         { header: "학과", key: "department", width: 18 },
         { header: "전화번호", key: "phone", width: 16 },
+        { header: "면접 가능 일자", key: "interview_dates", width: 50 },
     ];
 
     for (const a of data ?? []) {
+
+        const interviewStr = Array.isArray(a.interview_dates)
+            ? a.interview_dates.join(" | ")
+            : (a.interview_dates ?? "");
+
         sheet.addRow({
             created_at: a.created_at ? new Date(a.created_at).toLocaleString("ko-KR") : "",
             name: a.name ?? "",
             student_id: a.student_id ?? "",
             department: a.department ?? "",
             phone: a.phone ?? "",
+            interview_dates: interviewStr,
         });
     }
 

@@ -56,6 +56,21 @@ export default function ApplicantDetail() {
                 <p><strong>학과:</strong> {applicant.department}</p>
                 <p><strong>전화번호:</strong> {applicant.phone}</p>
                 <p><strong>지원일:</strong> {new Date(applicant.created_at).toLocaleString("ko-KR")}</p>
+                <section className="space-y-2">
+                    <h2 className="text-xl font-semibold">면접 가능 일자</h2>
+
+                    {Array.isArray(applicant.interview_dates)&&applicant.interview_dates.length>0 ? (
+                        <ul className="list-disc pl-5 border p-4 rounded bg-gray-50 space-y-1">
+                            {applicant.interview_dates.map((d: string) => (
+                                <li key={d}>{d}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="border p-4 rounded bg-gray-50 text-gray-500">
+                            선택된 면접일이 없습니다.
+                        </p>
+                    )}
+                </section>
             </div>
 
             <section className="space-y-2">

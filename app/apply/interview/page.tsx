@@ -69,7 +69,7 @@ export default function InterviewPage() {
 
     const data = {
       ...formData,
-      //interview_dates: selectedDates,
+      interview_dates: selectedDates,
     };
 
     const res = await fetch("/api/applications/submit",{
@@ -79,7 +79,7 @@ export default function InterviewPage() {
       },
       body: JSON.stringify(data),
     });
-
+    
     if(!res.ok){
       alert("저장 중 오류 발생");
       return;

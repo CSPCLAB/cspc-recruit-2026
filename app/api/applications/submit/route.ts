@@ -14,12 +14,16 @@ export async function POST(request: Request) {
             motivation,
             goal,
             comment,
+            interview_dates,
             // github_link 등 필요한 거 추가
         } = body;
 
         // 필수값 검증
         if (!name || !student_id || !phone || !intro || !motivation || !goal) {
             return NextResponse.json({ message: '필수 항목이 누락되었습니다.' }, { status: 400 });
+        }
+        if (!Array.isArray(interview_dates) || interview_dates.length===0){
+            return NextResponse.json({ message: '면접일을 1개 이상 선택해주세요.' }, { status: 400 });
         }
 
         const supabase = await createClient();
@@ -35,6 +39,7 @@ export async function POST(request: Request) {
                 motivation,
                 goal,
                 comment,
+                interview_dates,
                 // 만약 body에 'is_passed: true'가 있어도, 여기서 안 넣어주면 무시됨! (보안 통과)
             })
             .select();
