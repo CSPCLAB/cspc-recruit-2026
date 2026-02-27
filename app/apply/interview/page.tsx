@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function InterviewPage() {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const router = useRouter();
+  const [formData, setFormData] = useState<any>(null);
+
+  useEffect(()=>{
+    const saved = localStorage.getItem("applyForm");
+    if(saved){
+      setFormData(JSON.parse(saved));
+    }
+    else{
+      alert("지원서 정보가 없습니다.");
+      router.push("/apply");
+    }
+  }, []);
+
   // 면접일
   const interviewDates = [
     "2026년 3월 11일 (수) 18:00",
@@ -43,7 +56,9 @@ export default function InterviewPage() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if(!formData) return;
+
     if (selectedDates.length === 0) {
       alert("면접일을 1개 이상 선택해주세요.");
       return;
@@ -51,6 +66,26 @@ export default function InterviewPage() {
 
     const confirmSubmit = confirm("제출하시겠습니까?");
     if(!confirmSubmit) return;
+
+    const data = {
+      ...formData,
+      //interview_dates: selectedDates,
+    };
+
+    const res = await fetch("/api/applications/submit",{
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if(!res.ok){
+      alert("저장 중 오류 발생");
+      return;
+    }
+    
+    localStorage.removeItem("applyForm");
     
     // 완료 페이지로 이동
     router.push("/apply/complete");

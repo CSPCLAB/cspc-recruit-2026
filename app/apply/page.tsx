@@ -62,42 +62,44 @@ export default function ApplyPage() {
     }
 
     const data = {
-      name: formData.get("name"),
-      student_id: formData.get("student_id"),
-      department: formData.get("department"),
-      phone: formData.get("phone"),
-      intro: formData.get("intro"),
-      motivation: formData.get("motivation"),
-      goal: formData.get("goal"),
-      comment: formData.get("comment"),
-      orientation: orientation,
+      name: formData.get("name") as string,
+      student_id: formData.get("student_id") as string,
+      department: formData.get("department") as string,
+      phone,
+      intro: intro,
+      motivation: motivation,
+      goal: formData.get("goal") as string,
+      comment: (formData.get("comment") as string) || "",
+      //orientation,
     };
 
-    try {
-      const res = await fetch("/api/applications/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    localStorage.setItem("applyForm", JSON.stringify(data));
+    router.push("/apply/interview");
+    // try {
+    //   const res = await fetch("/api/applications/submit", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
 
-      const result = await res.json();
+    //   const result = await res.json();
 
-      if (!res.ok) {
-        alert(result.message || "오류가 발생했습니다.");
-        setLoading(false);
-        return;
-      }
+    //   if (!res.ok) {
+    //     alert(result.message || "오류가 발생했습니다.");
+    //     setLoading(false);
+    //     return;
+    //   }
 
-      router.push("/apply/interview");
+    //   router.push("/apply/interview");
       
-    } catch (error) {
-      console.error(error);
-      alert("서버 오류가 발생했습니다.");
-    }
+    // } catch (error) {
+    //   console.error(error);
+    //   alert("서버 오류가 발생했습니다.");
+    // }
 
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (
