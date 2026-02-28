@@ -16,41 +16,26 @@ export async function POST(request: Request) {
         if (!name || !student_id || !selectedDates || selectedDates.length === 0) {
             return NextResponse.json({ message: '누락된 정보가 있습니다.' }, { status: 400 });
         }
-        if (!Array.isArray(interview_dates) || interview_dates.length===0){
-            return NextResponse.json({ message: '면접일을 1개 이상 선택해주세요.' }, { status: 400 });
-        }
 
         const supabase = createClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
             process.env.SUPABASE_SERVICE_ROLE_KEY!
         );
 
-        // 2. 지원서 정보 저장 (applicants 테이블)
+        // 2. 지원서 + 면접 시간 한번에 저장
         const { error: appError } = await supabase
             .from('applicants')
             .insert({
                 name, student_id, department, phone,
-                intro, motivation, goal, comment, orientation
+                intro, motivation, goal, comment, orientation,
+                interview_periods: selectedDates  // applicants 테이블의 기존 컬럼 활용
             });
-            
+
         if (appError) {
             if (appError.code === '23505') {
                 return NextResponse.json({ message: '이미 지원한 학번입니다.' }, { status: 409 });
             }
             throw appError;
-        }
-
-        // 3. 면접 시간 정보 저장 (applicant_interview_selections 테이블)
-        const { error: interviewError } = await supabase
-            .from('applicant_interview_selections')
-            .insert({
-                student_id: student_id,
-                selected_dates: selectedDates
-            });
-
-        if (interviewError) {
-            console.error('면접 시간 저장 실패:', interviewError);
-            return NextResponse.json({ message: '면접 시간 저장 중 오류가 발생했습니다.' }, { status: 500 });
         }
 
         return NextResponse.json({ message: '전체 제출 성공' }, { status: 200 });
