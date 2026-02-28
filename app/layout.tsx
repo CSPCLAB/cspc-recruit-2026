@@ -39,17 +39,21 @@ export default function RootLayout({
 
         {/*footer*/}
         <footer className="bg-gray-100 mt-20 py-10">
-          <div className="max-w-5xl mx-auto text-left px-10">
-            <h2 className="text-xl font-semibold mb-5">
+          <div className="w-full text-left px-10">
+            <h2 className="text-lg md:text-2xl font-semibold mb-5">
               Contact
             </h2>
             <div className="flex gap-10 text-gray-700">
               <div>
-                <p className="text-lg leading-8">
-                  다산관 104, 105
+                <p className="text-sm md:text-lg leading-6 md:leading-8">
+                  랩실 | 다산관 104, 105
                 </p>
-                <p className="text-lg leading-8">문의 | 서현수 010-7349-1204</p>
-                <p className="text-lg leading-8">instagram | @sgu_cspc</p>
+                <p className="text-sm md:text-lg leading-6 md:leading-8">
+                  문의 | 서현수 010-7349-1204
+                </p>
+                <p className="text-sm md:text-lg leading-6 md:leading-8">
+                  instagram | @sgu_cspc
+                  </p>
               </div>
             </div>
           </div>

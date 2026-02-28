@@ -9,7 +9,7 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 w-full border-b bg-white z-50">
-            <div className="max-w-7xl mx-auto flex justify-between items-center px-8 py-6">
+            <div className="w-full flex justify-between items-center px-8 py-6">
 
                 {/* 로고 */}
                 <Link href="/" className="flex items-center gap-3">
