@@ -12,79 +12,103 @@ export default function ApplicantDetail() {
     const [applicant, setApplicant] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect (() => {
+    useEffect(() => {
         if (!id || id === "undefined") return;
-        console.log("현재 id:", id);
-        const fetchApplicant = async() => {
+        const fetchApplicant = async () => {
             try {
                 const res = await fetch(`/api/admin/applications/${id}`);
                 const result = await res.json();
-
-                if (!res.ok) {
-                    console.error("상세 불러오기 실패:",result);
-                    setApplicant(null);
-                    return;
-                }
-
+                if (!res.ok) { setApplicant(null); return; }
                 setApplicant(result.applicant);
             } catch (e) {
-                console.error("상세 fetch 에러:",e);
                 setApplicant(null);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchApplicant();
     }, [id]);
 
-    if (!id) return <p className="p-10">잘못된 접근</p>;
-    if (loading) return <p className="p-10">로딩중...</p>;
-    if (!applicant) return <p className="p-10">해당 지원자를 찾을 수 없음</p>;
+    if (!id) return <div className="min-h-screen flex items-center justify-center text-gray-500" style={{ colorScheme: 'light' }}>잘못된 접근</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center text-gray-400" style={{ colorScheme: 'light' }}>로딩 중...</div>;
+    if (!applicant) return <div className="min-h-screen flex items-center justify-center text-gray-500" style={{ colorScheme: 'light' }}>해당 지원자를 찾을 수 없습니다.</div>;
+
+    const sections = [
+        { title: "자기소개", content: applicant.intro },
+        { title: "지원 동기", content: applicant.motivation },
+        { title: "하고 싶은 것 / 배우고 싶은 것", content: applicant.goal },
+        { title: "하고 싶은 말", content: applicant.comment },
+    ];
 
     return (
-        <div className="p-10 space-y-6">
-            <button className="underline" onClick={() => router.back()}>
-                ← 목록으로
-            </button>
+        <div className="min-h-screen bg-gray-50" style={{ colorScheme: 'light' }}>
+            {/* 헤더 */}
+            <header className="bg-white border-b px-8 py-4 flex items-center gap-4">
+                <button
+                    onClick={() => router.back()}
+                    className="text-gray-400 hover:text-black transition text-lg"
+                >
+                    ←
+                </button>
+                <h1 className="text-lg font-bold text-black">지원서 상세</h1>
+            </header>
 
-            <h1 className="text-3xl font-bold">지원서 상세</h1>
+            <main className="max-w-3xl mx-auto px-6 py-8 space-y-5">
+                {/* 기본 정보 카드 */}
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                    <div className="flex items-start justify-between mb-4">
+                        <div>
+                            <h2 className="text-2xl font-bold text-black">{applicant.name}</h2>
+                            <p className="text-gray-400 text-sm mt-0.5">
+                                {new Date(applicant.created_at).toLocaleString("ko-KR")} 지원
+                            </p>
+                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${applicant.orientation
+                                ? "bg-green-100 text-green-700"
+                                : "bg-gray-100 text-gray-400"
+                            }`}>
+                            신환회 {applicant.orientation ? "참여" : "미참여"}
+                        </span>
+                    </div>
 
-            <div className="space-y-2">
-                <p><strong>이름:</strong> {applicant.name}</p>
-                <p><strong>학번:</strong> {applicant.student_id}</p>
-                <p><strong>학과:</strong> {applicant.department}</p>
-                <p><strong>전화번호:</strong> {applicant.phone}</p>
-                <p><strong>지원일:</strong> {new Date(applicant.created_at).toLocaleString("ko-KR")}</p>
-            </div>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                        {[
+                            { label: "학번", value: applicant.student_id },
+                            { label: "학과", value: applicant.department },
+                            { label: "전화번호", value: applicant.phone },
+                        ].map(({ label, value }) => (
+                            <div key={label} className="bg-gray-50 rounded-xl px-4 py-3">
+                                <p className="text-gray-400 text-xs mb-0.5">{label}</p>
+                                <p className="text-black font-medium">{value || "-"}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-            <section className="space-y-2">
-                <h2 className="text-xl font-semibold">자기소개</h2>
-                <p className="whitespace-pre-line border p-4 rounded bg-gray-50">
-                    {applicant.intro || "-"}
-                </p>
-            </section>
+                {/* 면접 가능 시간 */}
+                {applicant.interview_periods && applicant.interview_periods.length > 0 && (
+                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">면접 가능 시간</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {applicant.interview_periods.map((d: string) => (
+                                <span key={d} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg font-medium">
+                                    {d}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
-            <section className="space-y-2">
-                <h2 className="text-xl font-semibold">지원동기</h2>
-                <p className="whitespace-pre-line border p-4 rounded bg-gray-50">
-                    {applicant.motivation || "-"}
-                </p>
-            </section>
-
-            <section className="space-y-2">
-                <h2 className="text-xl font-semibold">하고 싶은 것 / 배우고 싶은 것</h2>
-                <p className="whitespace-pre-line border p-4 rounded bg-gray-50">
-                    {applicant.goal || "-"}
-                </p>
-            </section>
-
-            <section className="space-y-2">
-                <h2 className="text-xl font-semibold">하고 싶은 말</h2>
-                <p className="whitespace-pre-line border p-4 rounded bg-gray-50">
-                    {applicant.comment || "-"}
-                </p>
-            </section>
+                {/* 서술형 섹션 */}
+                {sections.map(({ title, content }) => (
+                    <div key={title} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">{title}</h3>
+                        <p className="text-black whitespace-pre-line leading-relaxed text-sm">
+                            {content || <span className="text-gray-300">-</span>}
+                        </p>
+                    </div>
+                ))}
+            </main>
         </div>
     );
 }
