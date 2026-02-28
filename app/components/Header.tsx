@@ -63,10 +63,7 @@ export default function Header() {
                         지원 안내
                     </Link>
                     <Link
-                        href="/apply"
-                        onClick={() => setOpen(false)}
-                        className="bg-black text-white px-5 py-3 rounded-xl text-center"
-                    >
+                        href="/apply" onClick={() => setOpen(false)}>
                         지원하기
                     </Link>
                 </div>
