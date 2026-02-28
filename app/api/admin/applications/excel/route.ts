@@ -11,10 +11,10 @@ export async function GET() {
         .from("applicants")
         .select("*")
         .order("created_at", { ascending: false });
-    
+
     if (error) {
-        console.error("Excel fetch error:",error);
-        return NextResponse.json({ error: error.message }, {status: 500});
+        console.error("Excel fetch error:", error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     const workbook = new ExcelJS.Workbook();
@@ -22,11 +22,15 @@ export async function GET() {
 
     sheet.columns = [
         { header: "지원일", key: "created_at", width: 22 },
-        { header: "이름", key: "name", width: 14 },
+        { header: "이름", key: "name", width: 12 },
         { header: "학번", key: "student_id", width: 14 },
         { header: "학과", key: "department", width: 18 },
         { header: "전화번호", key: "phone", width: 16 },
-        { header: "면접 가능 일자", key: "interview_dates", width: 50 },
+        { header: "신환회", key: "orientation", width: 10 },
+        { header: "자기소개", key: "intro", width: 60 },
+        { header: "지원동기", key: "motivation", width: 60 },
+        { header: "하고 싶은 것", key: "goal", width: 60 },
+        { header: "하고 싶은 말", key: "comment", width: 60 },
     ];
 
     for (const a of data ?? []) {
@@ -41,20 +45,36 @@ export async function GET() {
             student_id: a.student_id ?? "",
             department: a.department ?? "",
             phone: a.phone ?? "",
-            interview_dates: interviewStr,
+            orientation: a.orientation ? "참여" : "미참여",
+            intro: a.intro ?? "",
+            motivation: a.motivation ?? "",
+            goal: a.goal ?? "",
+            comment: a.comment ?? "",
         });
     }
 
+    // 헤더 스타일
     sheet.getRow(1).font = { bold: true };
+    sheet.getRow(1).fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFE5E7EB" },
+    };
+
+    // 서술형 컬럼 줄바꿈 허용
+    ["intro", "motivation", "goal", "comment"].forEach(key => {
+        const col = sheet.getColumn(key);
+        col.alignment = { wrapText: true, vertical: "top" };
+    });
 
     const buffer = await workbook.xlsx.writeBuffer();
-    const fileName = `applicants_${new Date().toISOString().slice(0,10)}.xlsx`;
+    const fileName = `applicants_${new Date().toISOString().slice(0, 10)}.xlsx`;
 
     return new NextResponse(Buffer.from(buffer), {
         headers: {
             "Content-Type":
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "Content-Disposition": `attachment; filename="${fileName}"`,
+            "Content-Disposition": `attachment; filename="${fileName}"`,
         },
     });
 }
