@@ -81,7 +81,8 @@ export default function InterviewPage() {
     });
 
     if (!res.ok) {
-      alert("저장 중 오류 발생");
+      const err = await res.json().catch(() => ({ message: "알 수 없는 오류" }));
+      alert("저장 실패: " + (err.message || "서버 오류"));
       return;
     }
 
