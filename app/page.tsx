@@ -99,7 +99,7 @@ export default function Home() {
 
       <section className="bg-black text-black py-12 md:py-18">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-xm sm:text-base md:text-lg text-gray-400 leading-relaxed">
+          <p className="text-xs sm:text-base md:text-lg text-gray-400 leading-relaxed">
             CSPCLAB은 함께 협력하고 고민하며 성장하는 공동체입니다.
             <br />
             깊이 있는 학습과 프로젝트를 통해 우리의 기반을 단단히 다집니다.

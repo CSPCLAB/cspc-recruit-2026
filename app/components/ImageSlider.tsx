@@ -64,9 +64,7 @@ export default function ImageSlider() {
     return (
         <div className="w-full relative">
             {/*슬라이드*/}
-            <div className="relative w-full overflow-hidden bg-black
-                min-h-[300px] sm:min-h-[400px] lg:min-h-[520px]"
-                style={{ aspectRatio: "16 / 9" }}
+            <div className="relative w-full overflow-hidden bg-black aspect-[16/9]"
             >
 
                 <div
