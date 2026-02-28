@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
+
+  const [name, setName] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [department, setDepartment] = useState("");
+  const [phone, setPhone] = useState("");
+  const [goal, setGoal] = useState("");
+  const [comment, setComment] = useState("");
+
 
   //글자수 표기
   const [intro, setIntro] = useState("");
@@ -25,81 +33,84 @@ export default function ApplyPage() {
   const introMin = 200;
   const motivationMin = 100;
 
+  const isFirstRender = useRef(true);
+
+  useEffect(()=>{
+    const saved = localStorage.getItem("applyForm");
+    if(saved){
+      const data = JSON.parse(saved);
+      setName(data.name || "");
+      setStudentId(data.student_id || "");
+      setDepartment(data.department || "");
+      setPhone(data.phone || "");
+      setGoal(data.goal || "");
+      setComment(data.comment || "");
+      setIntro(data.intro || "");
+      setMotivation(data.motivation || "");
+      setOrientation(data.orientation || false);
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(isFirstRender.current){
+      isFirstRender.current = false;
+      return;
+    }
+    const data = {
+      name,
+      student_id: studentId,
+      department,
+      phone,
+      goal,
+      comment,
+      intro,
+      motivation,
+      orientation,
+    };
+    localStorage.setItem("applyForm", JSON.stringify(data));
+  }, [
+    name,
+    studentId,
+    department,
+    phone,
+    goal,
+    comment,
+    intro,
+    motivation,
+    orientation,
+  ]);
+
   //글자수 확인
   const isValid = intro.trim().length >= introMin && motivation.trim().length >= motivationMin;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isValid) {
+    if(!isValid){
       alert("글자 수 조건을 충족해주세요.");
       return;
     }
 
     setLoading(true);
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const studentId = formData.get("student_id") as string;
-    const phone = formData.get("phone") as string;
-
     const studentIdValid = /^\d{8}$/.test(studentId);
     const phoneValid = /^010-\d{4}-\d{4}$/.test(phone);
 
-    if (!studentIdValid) {
+    if(!studentIdValid){
       setStudentIdError(true);
       alert("학번을 올바르게 입력해주세요.");
       setLoading(false);
       return;
     }
 
-    if (!phoneValid) {
+    if(!phoneValid){
       setPhoneError(true);
       alert("전화번호를 010-1234-5678 형식으로 입력해주세요.");
       setLoading(false);
       return;
     }
 
-    const data = {
-      name: formData.get("name"),
-      student_id: formData.get("student_id"),
-      department: formData.get("department"),
-      phone: formData.get("phone"),
-      intro: formData.get("intro"),
-      motivation: formData.get("motivation"),
-      goal: formData.get("goal"),
-      comment: formData.get("comment"),
-      orientation: orientation,
-    };
-
-    try {
-      const res = await fetch("/api/applications/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        alert(result.message || "오류가 발생했습니다.");
-        setLoading(false);
-        return;
-      }
-
-      // 면접일 페이지에서 학번을 읽을 수 있도록 저장
-      localStorage.setItem("pending_student_id", studentId);
-      router.push("/apply/interview");
-
-    } catch (error) {
-      console.error(error);
-      alert("서버 오류가 발생했습니다.");
-    }
-
-    setLoading(false);
+    router.push("/apply/interview");
   };
 
   return (
@@ -117,8 +128,11 @@ export default function ApplyPage() {
               이름 <span className="text-red-500">*</span>
             </label>
             <input
+              value={name}
               name="name"
               type="text"
+              onChange={(e)=>setName(e.target.value)}
+              placeholder="이름"
               required
               className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
             />
@@ -134,9 +148,14 @@ export default function ApplyPage() {
               type="text"
               placeholder="20261234"
               required
-              onChange={() => setStudentIdError(false)}
-              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${studentIdError ? "border-red-400" : "border-gray-300"
-                }`}
+              value={studentId}
+              onChange={(e)=>{
+                setStudentId(e.target.value);
+                setStudentIdError(false);
+              }}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
+                studentIdError ? "border-red-400" : "border-gray-300" 
+              }`}
             />
             <p className="text-sm text-gray-400 mt-1">
               중복 지원은 불가능합니다.
@@ -149,6 +168,8 @@ export default function ApplyPage() {
               학과 <span className="text-red-500">*</span>
             </label>
             <input
+              value={department}
+              onChange={(e)=>setDepartment(e.target.value)}
               name="department"
               type="text"
               required
@@ -162,13 +183,18 @@ export default function ApplyPage() {
               전화번호 <span className="text-red-500">*</span>
             </label>
             <input
+              value={phone}
               name="phone"
               type="text"
               placeholder="010-1234-5678"
               required
-              onChange={() => setPhoneError(false)}
-              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${phoneError ? "border-red-400" : "border-gray-300"
-                }`}
+              onChange={(e)=> {
+                setPhone(e.target.value);
+                setPhoneError(false);
+              }}
+              className={`w-full border bg-white text-black rounded-lg px-4 py-2 ${
+                phoneError? "border-red-400" : "border-gray-300"
+              }`}
             />
           </div>
 
@@ -180,19 +206,21 @@ export default function ApplyPage() {
             <textarea
               name="intro"
               value={intro}
-              onChange={(e) => setIntro(e.target.value)}
-              onBlur={() => setIntroTouched(true)}
+              onChange={(e)=>setIntro(e.target.value)}
+              onBlur={()=> setIntroTouched(true)}
               rows={5}
-              className={`w-full border rounded-lg px-4 py-2 resize-none ${introTouched && intro.trim().length < introMin
-                ? "border-red-400"
-                : "border-gray-300"
-                }`}
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${
+                introTouched && intro.trim().length < introMin
+                  ? "border-red-400"
+                  : "border-gray-300"
+              }`}
             />
             <p
-              className={`text-sm mt-1 ${introTouched && intro.trim().length < introMin
-                ? "text-red-500"
-                : "text-gray-500"
-                }`}
+              className={`text-sm mt-1 ${
+                introTouched && intro.trim().length < introMin
+                  ? "text-red-500"
+                  : "text-gray-500"
+              }`}
             >
               {intro.trim().length} / {introMin}자
             </p>
@@ -207,18 +235,20 @@ export default function ApplyPage() {
               name="motivation"
               value={motivation}
               onChange={(e) => setMotivation(e.target.value)}
-              onBlur={() => setMotivationTouched(true)}
+              onBlur={()=>setMotivationTouched(true)}
               rows={4}
-              className={`w-full border rounded-lg px-4 py-2 resize-none ${motivationTouched && motivation.trim().length < motivationMin
-                ? "border-red-400"
-                : "border-gray-300"
-                }`}
+              className={`w-full border rounded-lg px-4 py-2 resize-none ${
+                motivationTouched && motivation.trim().length < motivationMin
+                  ? "border-red-400"
+                  : "border-gray-300"
+              }`}
             />
             <p
-              className={`text-sm mt-1 ${motivationTouched && motivation.trim().length < motivationMin
-                ? "text-red-500"
-                : "text-gray-500"
-                }`}
+              className={`text-sm mt-1 ${
+                motivationTouched && motivation.trim().length < motivationMin
+                  ? "text-red-500"
+                  : "text-gray-500"
+              }`}
             >
               {motivation.trim().length} / {motivationMin}자
             </p>
@@ -230,6 +260,8 @@ export default function ApplyPage() {
               하고 싶은 것 / 배우고 싶은 것 <span className="text-red-500">*</span>
             </label>
             <textarea
+              value={goal}
+              onChange={(e)=>setGoal(e.target.value)}
               name="goal"
               required
               rows={3}
@@ -243,6 +275,8 @@ export default function ApplyPage() {
               하고 싶은 말 <span className="text-gray-400">(선택)</span>
             </label>
             <textarea
+              value={comment}
+              onChange={(e)=>setComment(e.target.value)}
               name="comment"
               rows={3}
               className="w-full border border-gray-300 bg-white text-black rounded-lg px-4 py-2 resize-none"
@@ -254,15 +288,15 @@ export default function ApplyPage() {
             <label className="block font-medium mb-2 text-black">
               3월 19일(목) 신입생 환영회는 필참 입니다!
             </label>
-
-            <label className="flex items-center gap-3 cursor-pointer">
+            
+            <label className = "flex items-center gap-3 cursor-pointer">
               <input
-                type="checkbox"
-                checked={orientation}
-                onChange={(e) => setOrientation(e.target.checked)}
-                className="w-5 h-5"
+                type = "checkbox"
+                checked = {orientation}
+                onChange = {(e)=>setOrientation(e.target.checked)}
+                className = "w-5 h-5"
               />
-              <span className="text-black">
+              <span className = "text-black">
                 참여 가능합니다.
               </span>
             </label>
