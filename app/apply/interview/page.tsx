@@ -69,7 +69,7 @@ export default function InterviewPage() {
 
     const data = {
       ...formData,
-      //interview_dates: selectedDates,
+      selectedDates: selectedDates,
     };
 
     const res = await fetch("/api/applications/submit", {
