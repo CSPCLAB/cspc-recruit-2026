@@ -7,22 +7,9 @@ export async function POST(request: Request) {
 
         // 프론트에서 합쳐서 보낸 모든 데이터 추출
         const {
-<<<<<<< HEAD
-            name,
-            student_id,
-            department,
-            phone,
-            intro,
-            motivation,
-            goal,
-            comment,
-            interview_dates,
-            // github_link 등 필요한 거 추가
-=======
             name, student_id, department, phone, intro,
             motivation, goal, comment, orientation,
             selectedDates // 면접일 선택 페이지에서 넘어온 데이터
->>>>>>> main
         } = body;
 
         // 1. 필수값 통합 검증 (1페이지 + 2페이지 데이터 모두 확인)
@@ -42,25 +29,10 @@ export async function POST(request: Request) {
         const { error: appError } = await supabase
             .from('applicants')
             .insert({
-<<<<<<< HEAD
-                name,
-                student_id,
-                department,
-                phone,
-                intro,
-                motivation,
-                goal,
-                comment,
-                interview_dates,
-                // 만약 body에 'is_passed: true'가 있어도, 여기서 안 넣어주면 무시됨! (보안 통과)
-            })
-            .select();
-=======
                 name, student_id, department, phone,
                 intro, motivation, goal, comment, orientation
             });
->>>>>>> main
-
+            
         if (appError) {
             if (appError.code === '23505') {
                 return NextResponse.json({ message: '이미 지원한 학번입니다.' }, { status: 409 });
