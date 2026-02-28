@@ -5,57 +5,55 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
+        // 프론트에서 합쳐서 보낸 모든 데이터 추출
         const {
-            name,
-            student_id,
-            department,
-            phone,
-            intro,
-            motivation,
-            goal,
-            comment,
-            orientation, // 추가된 필드
+            name, student_id, department, phone, intro,
+            motivation, goal, comment, orientation,
+            selectedDates // 면접일 선택 페이지에서 넘어온 데이터
         } = body;
 
-        // 필수값 검증 (orientation은 상황에 따라 필수 여부 결정)
-        if (!name || !student_id || !phone || !intro || !motivation || !goal || orientation === undefined) {
-            return NextResponse.json({ message: '필수 항목이 누락되었습니다.' }, { status: 400 });
+        // 1. 필수값 통합 검증 (1페이지 + 2페이지 데이터 모두 확인)
+        if (!name || !student_id || !selectedDates || selectedDates.length === 0) {
+            return NextResponse.json({ message: '누락된 정보가 있습니다.' }, { status: 400 });
         }
 
-        // Service Role Key로 RLS 우회 (서버 전용 API Route이므로 안전)
         const supabase = createClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
             process.env.SUPABASE_SERVICE_ROLE_KEY!
         );
 
-        const { data, error } = await supabase
+        // 2. 지원서 정보 저장 (applicants 테이블)
+        const { error: appError } = await supabase
             .from('applicants')
             .insert({
-                name,
-                student_id,
-                department,
-                phone,
-                intro,
-                motivation,
-                goal,
-                comment,
-                orientation, // 테이블 컬럼명과 일치해야 합니다.
-            })
-            .select();
+                name, student_id, department, phone,
+                intro, motivation, goal, comment, orientation
+            });
 
-        if (error) {
-            console.error('Supabase Error:', error);
-            // 학번 중복 체크 (Unique 제약 조건이 있을 경우)
-            if (error.code === '23505') {
+        if (appError) {
+            if (appError.code === '23505') {
                 return NextResponse.json({ message: '이미 지원한 학번입니다.' }, { status: 409 });
             }
-            return NextResponse.json({ message: '저장 실패: ' + error.message }, { status: 500 });
+            throw appError;
         }
 
-        return NextResponse.json({ message: '제출 성공', data }, { status: 200 });
+        // 3. 면접 시간 정보 저장 (applicant_interview_selections 테이블)
+        const { error: interviewError } = await supabase
+            .from('applicant_interview_selections')
+            .insert({
+                student_id: student_id,
+                selected_dates: selectedDates
+            });
+
+        if (interviewError) {
+            console.error('면접 시간 저장 실패:', interviewError);
+            return NextResponse.json({ message: '면접 시간 저장 중 오류가 발생했습니다.' }, { status: 500 });
+        }
+
+        return NextResponse.json({ message: '전체 제출 성공' }, { status: 200 });
 
     } catch (e) {
         console.error('Server Error:', e);
-        return NextResponse.json({ message: '서버 에러가 발생했습니다.' }, { status: 500 });
+        return NextResponse.json({ message: '서버 오류가 발생했습니다.' }, { status: 500 });
     }
 }
