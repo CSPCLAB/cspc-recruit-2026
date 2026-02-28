@@ -10,13 +10,9 @@ export async function GET() {
 
     const { data, error } = await supabase
         .from("applicants")
-        .select(`
-            *,
-            applicant_interview_selections (
-                selected_dates
-            )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
+
 
     if (error) {
         console.error("Admin fetch error:", error);
