@@ -1,16 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import ImageSlider from "./components/ImageSlider";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-white flex flex-col">
+    <main className="min-h-screen flex flex-col bg-white">
 
-      <section className="w-full bg-black py-10 px-5">
-        <div className="max-w-4xl mx-auto text-left">
-          <p className="text-lg tracking-widest text-white font-semibold mb-4 leading-9">
+      {/* 소개 문구 */}
+      <section className="w-full bg-black py-16 lg:py-24 px-6">
+        <div className="max-w-7xl mx-auto text-left">
+          <p className="text-1xl sm:text-3xl lg:text-4xl tracking-widest text-white font-semibold mb-4 leading-snug">
             CSPCLAB은<br />
             <span className="text-blue-500">소수정예</span>
             를 지향하는<br />서강대학교 소프트웨어융합대학<br />학회입니다.
@@ -18,30 +18,19 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto">
+      {/* 슬라이드 */}
+      <div className="max-w-7xl mx-auto w-full px-6 mt-10 lg:mt-14">
         <ImageSlider />
       </div>
 
-      <section className="w-full py-8 px-5">
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-10">
-          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px]
-              rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-relaxed bg-blue-600 flex items-center justify-center text-center">
-            지원 기간<br />3/3~3/10
-          </p>
-          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px] 
-              rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-relaxed bg-blue-600 flex items-center justify-center text-center">
-            면접 기간<br />3/11~3/13
-          </p>
-          <p className="w-[25vw] h-[25vw] max-w-[160px] max-h-[160px]
-              rounded-full text-lg tracking-normal text-gray-100 font-semibold mb-4 leading-relaxed bg-blue-600 flex items-center justify-center text-center">
-            합류<br />3월 중 예정
-          </p>
-        </div>
-      </section>
-
-      <div className="flex flex-col items-center gap-2 mt-8">
+      {/* 버튼 */}
+      <div className="flex flex-col items-center gap-2 mt-6 mb-16">
         <Link href="/apply">
-          <button className="text-white bg-blue-600 px-6 py-3 rounded-xl text-xl font-semibold">
+          <button className="text-white bg-black px-10 py-4 rounded-2xl text-2xl font-semibold
+          transition-all duration-150
+          hover:bg-gray-800
+          active:bg-gray-600
+          active:scale-105 cursor-pointer">
             CSPC 지원하기
           </button>
         </Link>
