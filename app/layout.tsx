@@ -48,7 +48,8 @@ export default function RootLayout({
                 <p className="text-lg leading-8">
                   다산관 104, 105
                 </p>
-                <p>문의 학회장 서현수 010-7349-1204</p>
+                <p className="text-lg leading-8">문의 | 서현수 010-7349-1204</p>
+                <p className="text-lg leading-8">instagram | @sgu_cspc</p>
               </div>
             </div>
           </div>
