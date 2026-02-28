@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/app/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
+
 const INTERVIEW_DATES = [
     { label: "3/11 (수)", key: "3월 11일 (수)" },
     { label: "3/12 (목)", key: "3월 12일 (목)" },
@@ -112,6 +113,7 @@ export default function AdminDashboard() {
     const assignedApplicants = applicants.filter(a => a.assigned_interview);
     const unassignedApplicants = applicants.filter(a => !a.assigned_interview);
 
+
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center text-gray-400" style={{ colorScheme: 'light' }}>
             로딩 중...
@@ -203,6 +205,7 @@ export default function AdminDashboard() {
                 {/* ──── 탭 2: 면접 배분 ──── */}
                 {activeTab === "interview" && (
                     <div className="space-y-6">
+
                         {/* 미배정 목록 */}
                         {unassignedApplicants.length > 0 && (
                             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
