@@ -9,7 +9,7 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 w-full border-b bg-white z-50">
-            <div className="w-full flex justify-between items-center px-8 py-6">
+            <div className="w-full flex justify-between items-center px-8 py-1">
 
                 {/* 로고 */}
                 <Link href="/" className="flex items-center gap-3">
@@ -36,13 +36,13 @@ export default function Header() {
                     <Link
                         href="/apply"
                         className="bg-black text-white px-5 py-2 rounded-xl
-                        hover:bg-gray-800 transition"
+                        hover:bg-gray-500 transition"
                     >
                         지원하기
                     </Link>
                 </nav>
 
-                {/* 모바일 햄버거 버튼 */}
+                {/* 모바일 헤더 버튼 */}
                 <button
                     className="md:hidden flex flex-col gap-1"
                     onClick={() => setOpen(!open)}
