@@ -15,6 +15,11 @@ const INTERVIEW_TIMES = [
     "20:00", "20:40",
 ];
 
+const ADMIN_EMAILS = [
+    "cspc2026gang@sogang.ac.kr",
+    "102030@sogang.ac.kr",
+];
+
 export default function AdminDashboard() {
     const router = useRouter();
     const supabase = createClient();
@@ -34,7 +39,7 @@ export default function AdminDashboard() {
         const checkAdmin = async () => {
             const { data } = await supabase.auth.getUser();
             if (!data.user) { router.push("/login"); return; }
-            if (data.user.email !== "cspc2026gang@sogang.ac.kr") {
+            if (!ADMIN_EMAILS.includes(data.user.email ?? "")) {
                 alert("관리자만 접근 가능");
                 router.push("/");
                 return;
