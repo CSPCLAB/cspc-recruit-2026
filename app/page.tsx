@@ -53,40 +53,34 @@ export default function Home() {
       </section>
 
       <section className="bg-black py-24">
-        <div className="w-full max-w-[1800px] mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-16">
-            Why CSPCLAB?
-          </h2>
+        <div className="w-full max-w-[1300px] mx-auto px-6 text-center">
 
           <div className="flex flex-col md:flex-row justify-between gap-12 w-full">
 
             <div className="md:w-[280px]">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">
-                Deep Study
+              <h3 className="text-xl font-semibold mb-4 text-white">
+                랩실관리
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                알고리즘, 시스템, 백엔드 등
-                깊이 있는 학습을 지향합니다.
+                다산관 104, 105호를 관리합니다.
               </p>
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">
-                Small Elite
+              <h3 className="text-xl font-semibold mb-4 text-white">
+                스터디/프로젝트
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                소수 인원 운영으로
-                밀도 높은 성장 환경을 만듭니다.
+                함께 배우고 싶은 것 무엇이든 응원합니다.
               </p>
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">
-                Real Project
+              <h3 className="text-xl font-semibold mb-4 text-white">
+                선배 찬스
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                실전 프로젝트를 통해
-                문제 해결 능력을 기릅니다.
+                언제든 물어볼 수 있는 선배가 있어 든든합니다.
               </p>
             </div>
 
@@ -95,39 +89,42 @@ export default function Home() {
       </section>
 
       <section className="bg-white text-black py-24">
-        <div className="max-w-[1600px] mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-12 text-center">
-            Our Activities
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-12">
+            소수라서 더 끈끈한
           </h2>
           <ImageSlider />
         </div>
       </section>
 
-      <section className="bg-black text-white py-24">
+      <section className="bg-black text-black py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-
-          <h2 className="text-2xl sm:text-3xl font-bold mb-10">
-            About CSPCLAB
-          </h2>
-
           <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
             CSPCLAB은 함께 협력하고 고민하며 성장하는 공동체입니다.
             <br />
             깊이 있는 학습과 프로젝트를 통해 우리의 기반을 단단히 다집니다.
           </p>
 
-          <div className="w-20 h-1 bg-blue-900 mx-auto mt-12 rounded-full"></div>
-        </div>
-      </section>
-
-      <section className="bg-white text-black">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="mt-16">
-            <p className="text-lg sm:text-xl text-black">
-              지금, CSPCLAB과 함께 성장하세요.
-            </p>
+          <div className="mt-8">
+            <Link href="/about">
+              <button
+                className="
+                  px-8 py-4 
+                  sm:px-5 sm:py-3
+                  text-lg sm:text-lg
+                  font-semibold
+                  rounded-full
+                  bg-gray-100
+                  hover:bg-gray-400
+                  active:scale-105
+                  transition-all duration-200
+                  shadow-lg shadow-gray-300/30
+                "
+              >
+                더 많은 이야기 +
+              </button>
+            </Link>
           </div>
-
         </div>
       </section>
 
