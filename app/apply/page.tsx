@@ -47,7 +47,7 @@ export default function ApplyPage() {
       setComment(data.comment || "");
       setIntro(data.intro || "");
       setMotivation(data.motivation || "");
-      //setOrientation(data.orientation || false);
+      setOrientation(data.orientation || false);
     }
   }, []);
 
@@ -65,7 +65,7 @@ export default function ApplyPage() {
       comment,
       intro,
       motivation,
-      //orientation,
+      orientation,
     };
     localStorage.setItem("applyForm", JSON.stringify(data));
   }, [
@@ -77,7 +77,7 @@ export default function ApplyPage() {
     comment,
     intro,
     motivation,
-    //orientation,
+    orientation,
   ]);
 
   //글자수 확인

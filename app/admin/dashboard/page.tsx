@@ -16,19 +16,6 @@ export default function AdminDashboardSimple() {
         window.location.href = "/api/admin/applications/excel";
     };
 
-    const summarizeInterviewDates = (interview_dates: unknown) => {
-  if (!interview_dates) return "-";
-  if (Array.isArray(interview_dates)) {
-    if (interview_dates.length === 0) return "-";
-    return interview_dates.length === 1
-      ? interview_dates[0]
-      : `${interview_dates[0]} 외 ${interview_dates.length - 1}개`;
-  }
-  // 혹시 문자열로 들어오면
-  if (typeof interview_dates === "string") return interview_dates;
-  return "-";
-};
-
     //관리자 체크
     useEffect(() => {
         const checkAdmin = async () => {
@@ -101,7 +88,6 @@ export default function AdminDashboardSimple() {
                         <th className="border p-2">학과</th>
                         <th className="border p-2">전화번호</th>
                         <th className="border p-2">지원일</th>
-                        <th className="border p-2">면접 가능 일자</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,9 +104,6 @@ export default function AdminDashboardSimple() {
                             <td className="border p-2">
                                 {new Date(app.created_at).toLocaleString("ko-KR")}
                             </td>
-                            <td className="border p-2">
-                                {summarizeInterviewDates(app.interview_dates)}
-                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -128,7 +111,7 @@ export default function AdminDashboardSimple() {
 
             <button
                 onClick={handleLogout}
-                className="mt-6 bg-red-500 text-white px-4 py-2 rounded mr-4"
+                className="mt-6 bg-red-500 text-white px-4 py-2 rounded mr-6"
             >
                 로그아웃
             </button>

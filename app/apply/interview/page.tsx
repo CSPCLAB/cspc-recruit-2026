@@ -8,12 +8,12 @@ export default function InterviewPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<any>(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const saved = localStorage.getItem("applyForm");
-    if(saved){
+    if (saved) {
       setFormData(JSON.parse(saved));
     }
-    else{
+    else {
       alert("지원서 정보가 없습니다.");
       router.push("/apply");
     }
@@ -47,17 +47,17 @@ export default function InterviewPage() {
     "2026년 3월 13일 (금) 20:40",
   ];
 
-  const toggleDate = (date: string) =>{
-    if(selectedDates.includes(date)){
-        setSelectedDates(selectedDates.filter((d) => d !== date));
+  const toggleDate = (date: string) => {
+    if (selectedDates.includes(date)) {
+      setSelectedDates(selectedDates.filter((d) => d !== date));
     }
-    else{
-        setSelectedDates([...selectedDates, date]);
+    else {
+      setSelectedDates([...selectedDates, date]);
     }
   };
 
   const handleSubmit = async () => {
-    if(!formData) return;
+    if (!formData) return;
 
     if (selectedDates.length === 0) {
       alert("면접일을 1개 이상 선택해주세요.");
@@ -65,28 +65,29 @@ export default function InterviewPage() {
     }
 
     const confirmSubmit = confirm("제출하시겠습니까?");
-    if(!confirmSubmit) return;
+    if (!confirmSubmit) return;
 
     const data = {
       ...formData,
-      interview_dates: selectedDates,
+      selectedDates: selectedDates,
     };
 
-    const res = await fetch("/api/applications/submit",{
+    const res = await fetch("/api/applications/submit", {
       method: "POST",
       headers: {
-        "Content-Type" : "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    
-    if(!res.ok){
-      alert("저장 중 오류 발생");
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: "알 수 없는 오류" }));
+      alert("저장 실패: " + (err.message || "서버 오류"));
       return;
     }
-    
+
     localStorage.removeItem("applyForm");
-    
+
     // 완료 페이지로 이동
     router.push("/apply/complete");
   };
@@ -107,10 +108,9 @@ export default function InterviewPage() {
               key={date}
               onClick={() => toggleDate(date)}
               className={`w-full py-3 sm:py-4 rounded-xl border text-sm sm:text-base md:text-lg font-medium transition-all
-                ${
-                  selectedDates.includes(date)
-                    ? "bg-black text-white border-black scale-[1.02]"
-                    : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                ${selectedDates.includes(date)
+                  ? "bg-black text-white border-black scale-[1.02]"
+                  : "bg-white text-black border-gray-300 hover:bg-gray-100"
                 }
               `}
             >
@@ -118,11 +118,11 @@ export default function InterviewPage() {
             </button>
           ))}
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4">
           <button
             type="button"
-            onClick={()=>router.push("/apply")}
+            onClick={() => router.push("/apply")}
             className="w-full bg-gray-200 text-black py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-200"
           >
             ← 뒤로가기

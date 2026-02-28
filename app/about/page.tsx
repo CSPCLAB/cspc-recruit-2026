@@ -80,6 +80,7 @@ export default function AboutPage() {
                         <h3 className="text-xl font-semibold mb-2">관리자실</h3>
                         <p className="text-gray-700 leading-relaxed">
                             • 언제든지 사용 가능
+                            <br />• Chat GPT, Claude AI 제공
                         </p>
                     </div>
                 </div>
