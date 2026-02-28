@@ -38,7 +38,7 @@ export default function RootLayout({
         </main>
 
         {/*footer*/}
-        <footer className="bg-gray-100 mt-20 py-10">
+        <footer className="bg-gray-100 mt-0 py-10">
           <div className="w-full text-left px-10">
             <h2 className="text-lg md:text-2xl font-semibold mb-5">
               Contact
