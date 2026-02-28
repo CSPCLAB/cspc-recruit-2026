@@ -64,8 +64,8 @@ export default function ApplicantDetail() {
                             </p>
                         </div>
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold ${applicant.orientation
-                                ? "bg-green-100 text-green-700"
-                                : "bg-gray-100 text-gray-400"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-400"
                             }`}>
                             신환회 {applicant.orientation ? "참여" : "미참여"}
                         </span>
@@ -108,6 +108,13 @@ export default function ApplicantDetail() {
                         </p>
                     </div>
                 ))}
+                {/* 하단 목록으로 버튼 */}
+                <button
+                    onClick={() => router.back()}
+                    className="w-full py-4 bg-white border border-gray-200 rounded-2xl text-gray-500 text-sm font-medium hover:bg-gray-50 hover:text-black transition shadow-sm"
+                >
+                    ← 목록으로 돌아가기
+                </button>
             </main>
         </div>
     );
