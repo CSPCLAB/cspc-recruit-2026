@@ -58,7 +58,7 @@ export default function ApplyInfoPage() {
             CSPC 모집
           </h2>
           <p className="text-gray-600 text-[clamp(14px,1.5vw,18px)] mb-6">
-            CSPC는 개발과 성장을 지향합니다.
+            CSPC는 이런 분들과 잘 어울립니다.
           </p>
           <div className="border-b-2 border-black w-full" />
         </section>
@@ -85,7 +85,7 @@ export default function ApplyInfoPage() {
                 >
                   <div
                     className="border border-gray-700 rounded-2xl p-10 flex flex-col items-center justify-center text-center">
-                    <div className="relative w-30 h-30 rounded-full border border-gray-500 overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
+                    <div className="relative w-30 h-30 rounded-full border border-gray-500 overflow-hidden mb-4 bg-gray-50 flex items-center justify-center">
                       <div className="relative w-24 h-24">
                         <Image
                           src={item.img}
