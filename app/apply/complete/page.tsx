@@ -9,7 +9,7 @@ export default function ApplyCompletePage(){
         <main className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
             <div className="bg-white p-10 rounded-3xl shadow-2xl p-16 text-center space-y-10">
 
-                <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-black">
+                <h1 className="text-xl sm:text-3xl md:text-5xl font-bold text-black">
                     지원이 완료되었습니다!
                 </h1>
 
