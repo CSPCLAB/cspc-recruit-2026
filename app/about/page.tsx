@@ -77,7 +77,7 @@ export default function AboutPage() {
     ];
 
     return (
-        <main className="min-h-screen bg-gray-100 text-black">
+        <main className="min-h-screen bg-white text-black">
             {/* 상단 헤더 */}
             <div className="bg-black text-white py-[clamp(16px,3vw,28px)] text-center text-[clamp(18px,2.5vw,28px)] font-semibold">
                 소개
