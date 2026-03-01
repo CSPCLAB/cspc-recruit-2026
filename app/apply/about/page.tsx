@@ -1,18 +1,47 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 
 export default function ApplyInfoPage() {
   const router = useRouter();
 
   const targets = [
-    "좁고 깊은 관계를 추구하는 사람",
-    "할 땐 하고 놀 땐 노는 사람",
-    "랩실에 자주 나올 수 있는 사람",
-    "같이 눈사람 만들어 줄 사람",
-    "배우고자 하는 의지가 있는 사람",
-    "이걸 모두 읽고 있는 당신",
+    {text : "좁고 깊은 관계를 추구하는 사람", img : "/face2.png"},
+    {text : "할 땐 하고 놀 땐 노는 사람", img : "/face1.png"},
+    {text : "랩실에 자주 나올 수 있는 사람", img : "/face4.png"},
+    {text : "같이 눈사람 만들어 줄 사람", img : "/face3.png"},
+    {text : "배우고자 하는 의지가 있는 사람", img : "/face6.png"},
+    {text : "이걸 모두 읽고 있는 당신", img : "/face5.png"},
   ];
+
+  const slides = [targets[targets.length-1], ...targets, targets[0]];
+  const [current, setCurrent] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setInterval>>(null);
+
+  //모바일 지원 대상 자동 슬라이드
+  useEffect(()=>{
+    timerRef.current = setInterval(()=>{
+      setCurrent((prev) => (prev+1));
+      setIsTransitioning(true);
+    }, 2500);
+    return () => {
+      if(timerRef.current) clearInterval(timerRef.current);
+    }
+  }, []);
+
+  const handleTransitionEnd=()=>{
+    if(current >= slides.length-1){
+      setIsTransitioning(false);
+      setCurrent(1);
+    }
+    else if(current <= 0){
+      setIsTransitioning(false);
+      setCurrent(slides.length-2);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-white text-black">
@@ -36,19 +65,77 @@ export default function ApplyInfoPage() {
 
         {/* 지원 대상 */}
         <section className="mb-[clamp(60px,8vw,140px)]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[clamp(16px,3vw,40px)]">
+          
+          {/*모바일*/}
+          <div className="sm:hidden relative overflow-hidden w-full">
+            <div
+              onTransitionEnd={handleTransitionEnd}
+              className="flex"
+              style={{
+                transition: isTransitioning ? "transform 500ms ease-in-out" : "none",
+                width: `${slides.length * 100}%`,
+                transform: `translateX(-${(current * 100) / slides.length}%)`,
+              }}
+            >
+              {slides.map((item, index) => (
+                <div
+                  key={index}
+                  style={{width: `${100/slides.length}%`}}
+                  className="flex-shrink-0 px-2"
+                >
+                  <div
+                    className="border border-gray-700 rounded-2xl p-10 flex flex-col items-center justify-center text-center">
+                    <div className="relative w-30 h-30 rounded-full border border-gray-500 overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
+                      <div className="relative w-24 h-24">
+                        <Image
+                          src={item.img}
+                          alt={item.text}
+                          fill
+                          sizes="96px"
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-base font-semibold">{item.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center gap-2 mt-4">
+              {targets.map((_, i) => {
+                const isActive = (current === 0 ? targets.length-1 : (current-1)%targets.length) === i;
+                return(  
+                  <div 
+                    key={i} 
+                    className={`h-1.5 rounded-full transition-all ${isActive ? "w-4 bg-black" : "w-1.5 bg-gray-300"}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/*데스트탑*/}
+          <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[clamp(16px,3vw,40px)]">
             {targets.map((item, index) => (
               <div
                 key={index}
-                className="border border-gray-300 rounded-2xl p-[clamp(20px,3vw,40px)] 
+                className="border border-gray-700 rounded-2xl p-[clamp(20px,3vw,40px)] 
                 flex flex-col items-center justify-center text-center 
                 transition-all duration-300 hover:bg-black hover:text-white hover:scale-105 cursor-pointer"
               >
-                <div className="w-[clamp(60px,8vw,100px)] h-[clamp(60px,8vw,100px)] rounded-full border flex items-center justify-center mb-[clamp(10px,2vw,20px)] text-[clamp(18px,3vw,32px)]">
-                  👤
+                <div className="relative w-[clamp(100px,15vw,120px)] h-[clamp(100px,15vw,120px)] rounded-full border border-gray-700 overflow-hidden mb-4 bg-gray-50 flex items-center justify-center">
+                  <div className="relative w-[clamp(80px,10vw,100px)] h-[clamp(80px,10vw,100px)]">  
+                    <Image
+                      src={item.img}
+                      alt={item.text}
+                      fill
+                      sizes="(max-width:768px) 100vw, 120px"
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
                 <p className="text-[clamp(13px,1.5vw,18px)] font-medium">
-                  {item}
+                  {item.text}
                 </p>
               </div>
             ))}
@@ -62,7 +149,7 @@ export default function ApplyInfoPage() {
           </h3>
           <div className="border-b-2 border-black w-full mb-[clamp(20px,3vw,50px)]" />
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-[clamp(20px,4vw,60px)]">
+          <div className="flex flex-row md:flex-row items-center justify-center gap-[clamp(20px,4vw,60px)]">
             
             {/* 단계 */}
             {[
