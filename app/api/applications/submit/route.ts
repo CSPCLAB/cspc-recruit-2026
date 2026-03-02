@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: '전체 제출 성공' }, { status: 200 });
 
     } catch (e) {
-        console.error('Server Error:', e);
+        // console.error('Server Error:', e);
         return NextResponse.json({ message: '서버 오류가 발생했습니다.' }, { status: 500 });
     }
 }
