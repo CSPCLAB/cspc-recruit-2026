@@ -29,12 +29,12 @@ export default function Home() {
             서강대학교 소프트웨어융합대학 학회
           </p>
 
-          <div className="mt-10">
-            <Link href="/apply">
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link href="/apply/about">
               <button
                 className="
-                  px-8 py-4 
-                  sm:px-10 sm:py-5
+                  px-6 py-3 
+                  sm:px-8 sm:py-4
                   text-lg sm:text-xl
                   font-semibold
                   rounded-full
@@ -45,7 +45,26 @@ export default function Home() {
                   shadow-lg shadow-gray-500/30
                 "
               >
-                지원하기 →
+                지원안내
+              </button>
+            </Link>
+
+            <Link href="/apply">
+              <button
+                className="
+                  px-6 py-3 
+                  sm:px-8 sm:py-4
+                  text-lg sm:text-xl
+                  font-semibold
+                  rounded-full
+                  bg-black
+                  hover:bg-gray-900
+                  active:scale-105
+                  transition-all duration-200
+                  shadow-lg shadow-gray-500/30
+                "
+              >
+                지원하기
               </button>
             </Link>
           </div>
@@ -93,7 +112,9 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold mb-12">
             소수라서 더 끈끈한
           </h2>
-          <ImageSlider />
+          <div className="max-w-4xl mx-auto">
+            <ImageSlider />
+          </div>
         </div>
       </section>
 

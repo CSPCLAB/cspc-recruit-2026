@@ -31,7 +31,7 @@ export default function Header() {
                         소개
                     </Link>
                     <Link href="/apply/about" className="hover:text-blue-600 transition">
-                        지원 안내
+                        지원안내
                     </Link>
                     <Link
                         href="/apply"
@@ -60,7 +60,7 @@ export default function Header() {
                         소개
                     </Link>
                     <Link href="/apply/about" onClick={() => setOpen(false)}>
-                        지원 안내
+                        지원안내
                     </Link>
                     <Link
                         href="/apply" onClick={() => setOpen(false)}>
