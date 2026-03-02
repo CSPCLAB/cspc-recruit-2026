@@ -29,6 +29,22 @@ export default function ApplyPage() {
 
   const router = useRouter();
 
+  //지원 시간
+  const APPLY_START = new Date("2026-03-03T00:00:00");
+  const APPLY_END = new Date("2026-03-09T23:59:59");
+
+  /*
+  useEffect(()=>{
+    const now = new Date();
+    if(now < APPLY_START){
+      router.replace("/apply/not-open");
+    }
+    else if(now > APPLY_END){
+      router.replace("/apply/closed");
+    }
+  }, [router]);
+  */
+
 
   const introMin = 200;
   const motivationMin = 100;

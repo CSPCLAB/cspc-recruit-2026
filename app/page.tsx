@@ -109,10 +109,10 @@ export default function Home() {
 
       <section className="bg-white text-black py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-12">
-            소수라서 더 끈끈한
-          </h2>
           <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-12">
+              소수라서 더 끈끈한
+            </h2>
             <ImageSlider />
           </div>
         </div>
