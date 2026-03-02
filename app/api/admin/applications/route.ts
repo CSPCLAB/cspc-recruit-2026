@@ -15,7 +15,7 @@ export async function GET() {
 
 
     if (error) {
-        console.error("Admin fetch error:", error);
+        // console.error("Admin fetch error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
