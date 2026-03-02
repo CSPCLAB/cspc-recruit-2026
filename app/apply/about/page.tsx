@@ -141,6 +141,17 @@ export default function ApplyInfoPage() {
             ))}
           </div>
         </section>
+        
+        {/* 모집 대상 */}
+        <section className="mb-[clamp(60px,8vw,140px)]">
+          <h3 className="text-[clamp(16px,2vw,22px)] font-bold mb-4">
+            지원 대상
+          </h3>
+          <div className="border-b-2 border-black w-full" />
+          <p className="text-gray-900 text-[clamp(15px,1.5vw,15px)] mb-6 py-6">
+            서강대학교 컴퓨터공학과 26학번
+          </p>
+        </section>
 
         {/* 지원 절차 */}
         <section className="mb-[clamp(60px,8vw,140px)]">
