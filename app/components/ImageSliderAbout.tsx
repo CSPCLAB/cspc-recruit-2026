@@ -11,10 +11,10 @@ type Slide = {
 
 const slides: Slide[] = [
   { src: "/about--1.jpg", alt: "CSPC 활동 1", desc: "25학년도 하계 졸업식" },
-  { src: "/about--2.jpg", alt: "CSPC 활동 2", desc: "CSPC 학회원들과 봄소풍으로 간 롯데월드" },
+  { src: "/about--2.jpg", alt: "CSPC 활동 2", desc: "봄소풍" },
   { src: "/about--3.jpg", alt: "CSPC 활동 3", desc: "스터디 활동 계획 발표" },
-  { src: "/about--4.jpg", alt: "CSPC 활동 4", desc: "학회원들과 함께하는 스터디 공부" },
-  { src: "/about--5.jpg", alt: "CSPC 활동 5", desc: "선배님들과 함께한 크리스마스 홈커밍 파티" },
+  { src: "/about--4.jpg", alt: "CSPC 활동 4", desc: "학회원들과 함께하는 스터디" },
+  { src: "/about--5.jpg", alt: "CSPC 활동 5", desc: "선배님들과 함께한 크리스마스 파티" },
 ];
 
 // 마지막에 첫 장 추가해서 자연스럽게 무한루프

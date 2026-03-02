@@ -118,7 +118,7 @@ export default function AboutPage() {
                         {resources.map((r, idx) => (
                             <div
                                 key={idx}
-                                className="border border-gray-300 rounded-2xl p-[clamp(20px,3vw,40px)]
+                                className="group border border-gray-300 rounded-2xl p-[clamp(20px,3vw,40px)]
                 transition-all duration-300 hover:bg-black hover:text-white hover:scale-105"
                             >
                                 <div className="mb-4 text-gray-800 group-hover:text-white">
@@ -127,7 +127,7 @@ export default function AboutPage() {
                                 <h4 className="text-[clamp(15px,1.8vw,20px)] font-semibold mb-2">
                                     {r.title}
                                 </h4>
-                                <p className="text-[clamp(13px,1.4vw,17px)] leading-relaxed text-gray-700">
+                                <p className="text-[clamp(13px,1.4vw,17px)] leading-relaxed text-gray-700 group-hover:text-gray-200">
                                     {r.desc}
                                 </p>
                             </div>
