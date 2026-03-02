@@ -41,6 +41,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // 3. 지원 기간 체크: /apply 경로는 기간 내에만 접근 가능
+    /*
     const APPLY_START = new Date("2026-03-03T00:00:00+09:00"); // 시작일
     const APPLY_END = new Date("2026-03-09T23:59:00+09:00"); // 마감일
     const now = new Date();
@@ -53,7 +54,7 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    return response;
+    return response;*/
 }
 
 export const config = {
@@ -61,6 +62,6 @@ export const config = {
         "/admin/:path*",
         "/login",
         "/apply",
-        "/apply/((?!not-open|closed).+)", // not-open, closed 제외한 /apply 하위 경로
+        "/apply/((?!not-open|closed|about).+)", // not-open, closed, about 제외한 /apply 하위 경로
     ],
 };
