@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
         // 대시보드로 보내줌
         return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
-
+    /*
     // 3. 지원 기간 체크: /apply 경로는 기간 내에만 접근 가능
     const APPLY_START = new Date("2026-03-03T00:00:00+09:00"); // 시작일
     const APPLY_END = new Date("2026-03-09T23:59:00+09:00"); // 마감일
@@ -54,13 +54,13 @@ export async function middleware(request: NextRequest) {
     }
 
     return response;
-}
+}*/
 
-export const config = {
-    matcher: [
-        "/admin/:path*",
-        "/login",
-        "/apply",
-        "/apply/((?!not-open|closed).+)", // not-open, closed 제외한 /apply 하위 경로
-    ],
-};
+    export const config = {
+        matcher: [
+            "/admin/:path*",
+            "/login",
+            "/apply",
+            "/apply/((?!not-open|closed|about).+)", // not-open, closed, about 제외한 /apply 하위 경로
+        ],
+    };
