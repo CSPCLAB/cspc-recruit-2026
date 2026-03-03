@@ -12,8 +12,7 @@ export default function InterviewPage() {
     const saved = localStorage.getItem("applyForm");
     if (saved) {
       setFormData(JSON.parse(saved));
-    }
-    else {
+    } else {
       alert("지원서 정보가 없습니다.");
       router.push("/apply");
     }
@@ -50,11 +49,21 @@ export default function InterviewPage() {
     "2026년 3월 13일 (금) 20:40",
   ];
 
+  // 날짜별 그룹화
+  const groupedDates = interviewDates.reduce((acc: any, date) => {
+    const parts = date.split(" ");
+    const day = `${parts[0]} ${parts[1]} ${parts[2]} ${parts[3]}`; 
+    // 예: 2026년 3월 11일 (수)
+
+    if (!acc[day]) acc[day] = [];
+    acc[day].push(date);
+    return acc;
+  }, {});
+
   const toggleDate = (date: string) => {
     if (selectedDates.includes(date)) {
       setSelectedDates(selectedDates.filter((d) => d !== date));
-    }
-    else {
+    } else {
       setSelectedDates([...selectedDates, date]);
     }
   };
@@ -90,35 +99,49 @@ export default function InterviewPage() {
     }
 
     localStorage.removeItem("applyForm");
-
-    // 완료 페이지로 이동
     router.push("/apply/complete");
   };
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 md:px-10 py-10">
-      <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[75%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8 transition-all">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-black">
+      <div className="w-full sm:w-[90%] md:w-[85%] lg:w-[80%] bg-white text-black rounded-2xl shadow-lg p-6 sm:p-8 transition-all">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
           면접일 선택
         </h1>
-        <p className="text-gray-500 mb-8 text-sm sm:text-base">
+        <p className="text-gray-500 mb-10 text-sm sm:text-base">
           가능한 면접 날짜를 모두 선택해주세요.
         </p>
 
-        <div className="grid gap-4 mb-10">
-          {interviewDates.map((date) => (
-            <button
-              key={date}
-              onClick={() => toggleDate(date)}
-              className={`w-full py-3 sm:py-4 rounded-xl border text-sm sm:text-base md:text-lg font-medium transition-all
-                ${selectedDates.includes(date)
-                  ? "bg-black text-white border-black scale-[1.02]"
-                  : "bg-white text-black border-gray-300 hover:bg-gray-100"
-                }
-              `}
-            >
-              {date}
-            </button>
+        {/* 날짜별 배치 (데스크탑 3열, 모바일 1열) */}
+        <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-8 mb-10">
+          {Object.entries(groupedDates).map(([day, dates]: any) => (
+            <div key={day}>
+              <h2 className="text-lg sm:text-xl font-bold mb-4 border-b pb-2">
+                {day}
+              </h2>
+
+              <div className="space-y-3">
+                {dates.map((date: string) => {
+                  const time = date.split(" ").pop(); // 시간만 표시
+
+                  return (
+                    <button
+                      key={date}
+                      onClick={() => toggleDate(date)}
+                      className={`w-full py-3 sm:py-4 rounded-xl border text-sm sm:text-base md:text-lg font-medium transition-all
+                        ${
+                          selectedDates.includes(date)
+                            ? "bg-black text-white border-black scale-[1.02]"
+                            : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                        }
+                      `}
+                    >
+                      {time}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           ))}
         </div>
 
@@ -133,7 +156,7 @@ export default function InterviewPage() {
 
           <button
             onClick={handleSubmit}
-            className="w-full bg-black text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] trasition-all duration-200"
+            className="w-full bg-black text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
           >
             제출하기
           </button>
